@@ -1,0 +1,36 @@
+{
+    "navbar": {
+        "c1": "Home",
+        "c2": "Blog",
+        "c3": "Vlog",
+        "c4": "SCLRNET",
+        "c5": "About",
+        "c6": "Contact"
+
+    },
+    "home": {
+        "title": "WELCOME",
+        "error": "Your browser does not support the video tag."
+    },
+    "about": {
+        "title": "About",
+        "description": "About page"
+    },
+    "contact": {
+        "title": "Contact",
+        "description": "Contact page"
+    },
+    "header": {
+        "title": "SAM",
+        "description": "SAM Web Protal"
+    },
+    "footer": {
+        "copyright": "Copyright",
+        "disclaimer": "All Rights Reserved"
+    },
+    "f0f": {
+        "header": "404 Page Not Found",
+        "title": "404",
+        "description": "Page not found"
+    }
+}

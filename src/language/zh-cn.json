@@ -1,0 +1,36 @@
+{
+    "navbar": {
+        "c1": "首页",
+        "c2": "博客",
+        "c3": "个人视频",
+        "c4": "SCLRNET",
+        "c5": "关于",
+        "c6": "联系我"
+
+    },
+    "home": {
+        "title": "欢迎",
+        "error": "您的浏览器不支持video标签"
+    },
+    "about": {
+        "title": "About",
+        "description": "About page"
+    },
+    "contact": {
+        "title": "Contact",
+        "description": "Contact page"
+    },
+    "header": {
+        "title": "SAM",
+        "description": "SAM门户网站"
+    },
+    "footer": {
+        "copyright": "版权所有",
+        "disclaimer": "保留所有权利"
+    },
+    "f0f": {
+        "header":"404 页面不存在",
+        "title": "404",
+        "description": "页面不存在"
+    }
+}
