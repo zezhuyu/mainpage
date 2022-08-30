@@ -26,7 +26,9 @@ function App() {
 }
 
 function LanguageSelector(){
-  const [language,setLanguage] = useState('')
+  const { i18n } = useTranslation()
+  const [language, setLanguage] = useState(i18n.language)
+  console.log(i18n.language)
   const changeLanguage = (e) => {
     setLanguage(e.target.value)
     i18n.changeLanguage(e.target.value)
@@ -35,7 +37,7 @@ function LanguageSelector(){
     <div>
      <label>中/En</label>
      <select value={language} onChange={(e)=>changeLanguage(e)}>
-        <option value="zh-cn">中文</option>
+        <option value="zh-CN">中文</option>
         <option value="en">English</option>
      </select>
  </div>  
@@ -73,6 +75,13 @@ function Home(){
 }
 
 function NavBar(){
+  const changeClass = (activate) => {
+    if(activate.isActive){
+      return "block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700  "
+    }else{
+      return "block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700  "
+    }
+  }
   const { t } = useTranslation()
   return (
       <Router className="bg-white border-gray-200 px-5 py-16 rounded">
@@ -137,14 +146,6 @@ function F0F () {
 
 function toURL(e){
   window.location.href = e.target.getAttribute('link');
-}
-
-function changeClass(activate){
-  if(activate.isActive){
-    return "block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700  "
-  }else{
-    return "block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700  "
-  }
 }
 
 export default withTranslation()(App);

@@ -6,13 +6,14 @@ import en from './language/en.json'
 
 
 const resources = {
-  cn: {
+  "zh-CN": {
     translation: cn
   },
-  en: {
+  "en": {
     translation: en
   },
 };
+console.log(LanguageDetector)
 i18n.use(LanguageDetector)
 .use(initReactI18next)
   .init({
