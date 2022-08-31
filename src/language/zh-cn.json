@@ -5,7 +5,7 @@
         "c3": "个人视频",
         "c4": "SCLRNET",
         "c5": "关于",
-        "c6": "联系我"
+        "c6": "联络"
 
     },
     "home": {
@@ -13,12 +13,13 @@
         "error": "您的浏览器不支持video标签"
     },
     "about": {
-        "title": "About",
-        "description": "About page"
+        "title": "关于",
+        "h1": "关于samproduce.com",
+        "c1": "samproduce.com是一个网站，也是一个个人研究项目。这个项目创建于2018年3月，用于个人对网络和云计算的学习。一开始，我注册了域名zezhuyu.com和zezhuyu.me，这样我就可以连接到我的家庭服务器。在接下来的四年里，该项目衍生了越来越多的子项目。截至2022年3月，该项目拥有的子项目包括但不限于SAM CLOUD、SAM CDN & APPX、SCLRNET。SAM CLOUD是一个个人云学习项目，专注于云存储、云计算和硬件虚拟化。SAM CDN & APPX是一个个人边缘计算和存储平台，专注于无服务器和对象存储，并依靠SCLRNET将内容快速传递给请求方。SCLRNET是一个个人网络学习和研究项目，专注于路由和网络协议，与世界上许多内容交付网络和一些一级NSP对等互联。运营个人骨干网络和研究网络，并为大多数个人项目和服务提供网络接入。"
     },
     "contact": {
-        "title": "Contact",
-        "description": "Contact page"
+        "title": "Contact"
+        
     },
     "header": {
         "title": "SAM",

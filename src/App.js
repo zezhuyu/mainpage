@@ -5,6 +5,7 @@ import {useState} from 'react';
 import './App.css';
 import About from './about';
 import Contact from './contact';
+// eslint-disable-next-line
 import i18n from './translate';
 
 function App() {
@@ -28,19 +29,16 @@ function App() {
 function LanguageSelector(){
   const { i18n } = useTranslation()
   const [language, setLanguage] = useState(i18n.language)
-  console.log(i18n.language)
-  const changeLanguage = (e) => {
-    setLanguage(e.target.value)
-    i18n.changeLanguage(e.target.value)
+  const changeLanguage = (lang) => {
+    setLanguage(lang)
+    i18n.changeLanguage(lang)
   }
   return (
-    <div>
-     <label>中/En</label>
-     <select value={language} onChange={(e)=>changeLanguage(e)}>
-        <option value="zh-CN">中文</option>
-        <option value="en">English</option>
-     </select>
- </div>  
+    <div className='md:items-center'>
+      <button className='bg-sky-700 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => changeLanguage(language === 'en' ? 'zh-CN' : 'en')}>
+        {language === 'en' ? '中文' : 'English'}
+      </button>
+    </div>  
   )
 }
 
@@ -60,9 +58,9 @@ function Header(){
 function Home(){
   const { t } = useTranslation()
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3" style={{backgroundImage: 'url(bg.jpg)'}}>
+    <section className="relative h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3" >
         <div className="video-docker absolute top-0 left-0 w-full h-full overflow-hidden" >
-          <video className="min-w-full min-h-full absolute object-cover fadein" autoPlay muted loop>
+          <video className="min-w-full min-h-full absolute object-cover fadein" autoPlay muted loop poster='bg.jpg'>
             <source src="https://www.zezhuyu.video/2019/YK/new/video/video.mp4" type="video/mp4" />
             {t('home.error')}
           </video>
@@ -77,30 +75,33 @@ function Home(){
 function NavBar(){
   const changeClass = (activate) => {
     if(activate.isActive){
-      return "block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700  "
+      return "block py-2 pr-4 pl-3 bg-blue-700 rounded bg-transparent text-blue-700  "
     }else{
-      return "block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700  "
+      return "block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 hover:bg-transparent"
     }
   }
   const { t } = useTranslation()
   return (
-      <Router className="bg-white border-gray-200 px-5 py-16 rounded">
-        <div className="container flex flex-wrap justify-between items-center mx-auto">
+      <Router className="px-5 py-16 rounded md:items-center bg-transparent">
+        <div className="container flex flex-wrap justify-between items-center mx-auto bg-transparent">
           <NavLink to="/" className="flex items-center" link='/' onClick={toURL}>
             <img src="logo.png" className="ml-3 mr-3 h-10" alt="logo" link='/' />
             <span className="self-center text-2xl whitespace-nowrap " link='/'>SAM</span>
           </NavLink>
-          <LanguageSelector />
-          <div className="hidden w-full md:block md:w-auto" id="mobile-menu">
-            <ul className="flex flex-col p-4 rounded-lg border-gray-100 md:flex-row space-x-8 mt-0 text-base font-medium border-0 bg-white ">
+          <div className="flex md:place-content-center items-center justify-end bg-transparent">
+            <LanguageSelector />
+          </div>
+          <div className="hidden w-full md:block md:w-auto bg-transparent">
+            <ul className="flex flex-col p-4 rounded-lg md:flex-row space-x-8 mt-0 text-base font-medium border-0 bg-transparent">
+              <li></li>
               <li>
-                <NavLink to="/" className={isActive => changeClass(isActive)} link='/' onClick={toURL} aria-current="page">{t('navbar.c1')}</NavLink>
+                <NavLink to="/" className={isActive => changeClass(isActive)} link='/' onClick={toURL}>{t('navbar.c1')}</NavLink>
               </li>
               <li>
-                <button link="https://www.zezhuyu.video" onClick={toURL} className={changeClass(false)}>{t('navbar.c2')}</button>
+                <button link="https://blog.zezhuyu.com" onClick={toURL} className={changeClass(false)}>{t('navbar.c2')}</button>
               </li>
               <li>
-                <button link="https://blog.zezhuyu.com" onClick={toURL} className={changeClass(false)}>{t('navbar.c3')}</button>
+                <button link="https://www.zezhuyu.video" onClick={toURL} className={changeClass(false)}>{t('navbar.c3')}</button>
               </li>
               <li>
                 <button link="https://www.sclrnet.com" onClick={toURL} className={changeClass(false)}>{t('navbar.c4')}</button>
@@ -111,7 +112,9 @@ function NavBar(){
               <li>
                 <NavLink to="/contact" className={isActive => changeClass(isActive)} link='/contact' onClick={toURL}>{t('navbar.c6')}</NavLink>
               </li>
+              
             </ul>
+            
           </div>
         </div>
       </Router>

@@ -14,7 +14,8 @@
     },
     "about": {
         "title": "About",
-        "description": "About page"
+        "h1": "About samproduce.com",
+        "c1": "samproduce.com is a website as well as a personal research project. This project was created in March 2018 for personal learning about networking and cloud computing. In the beginning, I registered the domains zezhuyu.com and zezhuyu.me so that I could connect to my home server. Over the next four years, the project spawned more and more sub-projects. As of March 2022, the project has sub-projects including but not limited to SAM CLOUD, SAM CDN & APPX, and SCLRNET. SAM CLOUD is a personal cloud learning project that focuses on cloud storage, cloud computing, and hardware virtualization. SAM CDN & APPX is a personal edge computing and storage platform that focuses on serverless and object storage and relies on SCLRNET to deliver content quickly to the requesting party. SCLRNET is a personal network learning and research project that focuses on routing and network protocols to peer with many content delivery networks and some Tier 1 NSPs around the world. operates personal backbone and pilot networks and provides network access to most personal projects and services."
     },
     "contact": {
         "title": "Contact",

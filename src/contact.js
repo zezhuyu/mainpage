@@ -1,19 +1,31 @@
 export default function Contact () {
     return (
         <div className="App">
-        <header className="App-header">
-            <p>
-            Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            >
-            Learn React
-            </a>
-        </header>
+            <p>Contact Me</p>
+            <div>
+            <form action="/action_page.php">
+                <label>First Name</label>
+                <input type="text" id="fname" name="firstname" placeholder="Your name.." />
+                <label>Last Name</label>
+                <input
+                type="text"
+                id="lname"
+                name="lastname"
+                placeholder="Your last name.."
+                />
+
+                <label>Email</label>
+                <input type="email" id="email" name="email" placeholder="Your email" />
+
+                <label>Subject</label>
+                <textarea
+                id="subject"
+                name="subject"
+                placeholder="Write something.."
+                ></textarea>
+                <input type="submit" value="Submit" />
+            </form>
+            </div>
         </div>
     )
 }
