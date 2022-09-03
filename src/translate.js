@@ -9,16 +9,15 @@ const resources = {
   "zh-CN": {
     translation: cn
   },
-  "en": {
+  "en-US": {
     translation: en
   },
 };
-console.log(LanguageDetector)
 i18n.use(LanguageDetector)
 .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: "en",
+    fallbackLng: "en-US",
     detection: {
       caches: ['localStorage', 'sessionStorage', 'cookie'],
     }

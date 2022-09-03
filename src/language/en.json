@@ -10,20 +10,45 @@
     },
     "home": {
         "title": "WELCOME",
-        "error": "Your browser does not support the video tag."
+        "error": "Your browser does not support the video tag.",
+        "poem":["You Are Stronger Than Your Scars", "And The World Carries On", "Drowning", "Camouflaged", "A Day Away", "Despite The Storms", "Nothing Gold Can Stay"]
     },
     "about": {
         "title": "About",
         "h1": "About samproduce.com",
-        "c1": "samproduce.com is a website as well as a personal research project. This project was created in March 2018 for personal learning about networking and cloud computing. In the beginning, I registered the domains zezhuyu.com and zezhuyu.me so that I could connect to my home server. Over the next four years, the project spawned more and more sub-projects. As of March 2022, the project has sub-projects including but not limited to SAM CLOUD, SAM CDN & APPX, and SCLRNET. SAM CLOUD is a personal cloud learning project that focuses on cloud storage, cloud computing, and hardware virtualization. SAM CDN & APPX is a personal edge computing and storage platform that focuses on serverless and object storage and relies on SCLRNET to deliver content quickly to the requesting party. SCLRNET is a personal network learning and research project that focuses on routing and network protocols to peer with many content delivery networks and some Tier 1 NSPs around the world. operates personal backbone and pilot networks and provides network access to most personal projects and services."
+        "c1": "samproduce.com is a website as well as a personal research project. This project was created in March 2018 for personal learning about networking and cloud computing. In the beginning, I registered the domains zezhuyu.com and zezhuyu.me so that I could connect to my home server. Over the next four years, the project spawned more and more sub-projects. As of March 2022, the project has sub-projects including but not limited to SAM CLOUD, SAM CDN & APPX, and SCLRNET. SAM CLOUD is a personal cloud learning project that focuses on cloud storage, cloud computing, and hardware virtualization. SAM CDN & APPX is a personal edge computing and storage platform that focuses on serverless and object storage and relies on SCLRNET to deliver content quickly to the requesting party. SCLRNET is a personal network learning and research project that focuses on routing and network protocols to peer with many content delivery networks and some Tier 1 NSPs around the world. operates personal backbone and pilot networks and provides network access to most personal projects and services.",
+        "h2": "About Sam Yu",
+        "c2": "I am a technology enthusiast and love all electronics. Also a programmer. Currently studying at the University of Toronto Mississauga. In my spare time, I like photography, making videos, listening to music and sleeping."
     },
     "contact": {
         "title": "Contact",
-        "description": "Contact page"
+        "content": "If you have any questions or suggestions, you can contact me at the following ways.",
+        "n1": "Work",   
+        "n2": "School",
+        "n3": "Personal",
+        "m1": "sam@samproduce.com",
+        "m2": "zezhu.yu@mail.utoronto.ca",
+        "m3": "y@zzsam.com",
+        "button": "Contact Me Now"
+    },
+    "form": {
+        "title":"Contact Me",
+        "name": "Name",
+        "email": "Email",
+        "subject": "Subject",
+        "message": "Message",
+        "button": "Submit",
+        "success": "Your message has been sent successfully!",
+        "error": "Sorry, The message could not be sent. Please try again later."
     },
     "header": {
         "title": "SAM",
         "description": "SAM Web Protal"
+    },
+    "cookie":{
+        "c1": "This website uses cookies to ensure you get the best experience on our website. By continuing to browse the website, you are agreeing to our use of cookies. ",
+        "c2": "For better experience, we suggest you to view this website on a computer.",
+        "button": "Accept"
     },
     "footer": {
         "copyright": "Copyright",
