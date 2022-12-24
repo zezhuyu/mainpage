@@ -11,8 +11,22 @@
   to   { opacity: 0; }
 }
 
+.fadeinph {
+  animation-delay: 1s;
+  animation: fadeinph 1.5s;
+  
+}
+@keyframes fadeinph {
+  from { opacity: 0;}
+  to   { opacity: 1; }
+}
+
+.fadeinp {
+  animation: fadeinc 0.7s;
+}
+
 .fadeinc {
-  animation: fadeinc .6s;
+  animation: fadeinc 1s;
 }
 
 @keyframes fadeinc {
@@ -30,7 +44,7 @@
 }
 
 .move-up {
-  animation: moveUp 0.8s;
+  animation: moveUp 1s;
 }
 
 @keyframes moveUp {
@@ -51,6 +65,14 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.proj_content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .App-link {
@@ -78,7 +100,7 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 
@@ -108,7 +130,6 @@ body {
 
 .playfair {
   font-family: 'Playfair Display', serif;
-  padding-bottom: 50px
 }
 .experience_section .title {
   width: 70%;

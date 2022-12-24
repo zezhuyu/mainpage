@@ -3,12 +3,29 @@ import {Helmet} from 'react-helmet';
 import { useTranslation, withTranslation } from 'react-i18next';
 import {useState} from 'react';
 import CookieConsent from "react-cookie-consent";
-import { BrowserView,  MobileView,  isBrowser, isMobile, isTablet } from "react-device-detect"
+import { isMobile, isTablet } from "react-device-detect"
+import axios from "axios";
+import hash from 'object-hash';
 import './App.css';
 import About from './about';
 import Contact from './contact';
+import Project from './project';
 // eslint-disable-next-line
 import i18n from './translate';
+import config from './config.json';
+import video from './comp/bg-video.mp4';
+import logo from './comp/logo.png';
+import bg from './comp/bg.jpg';
+import navbar_bg from './comp/navbar-bg.jpg';
+
+
+const headers = {
+  headers: {
+      'Content-Type': 'application/json',
+      'token': "",
+      "Access-Control-Allow-Origin": "*"
+  }
+}
 
 function App() {
   return (
@@ -20,6 +37,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/contact" element={<Contact />} />
+          <Route exact path="/project" element={<Project />} />
           <Route path="*" element={<F0F />} status={404}/>
         </Routes>
       </Router>
@@ -37,8 +55,8 @@ function LanguageSelector(){
   }
   return (
     <div className='md:items-center'>
-      <button className='bg-sky-700 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => changeLanguage(language === 'en-US' ? 'zh-CN' : 'en-US')}>
-        {language === 'en-US' ? '中文' : 'English'}
+      <button className='bg-sky-700 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={() => changeLanguage(language.startsWith('en') ? 'zh-CN' : 'en-US')}>
+        {language.startsWith('en') ? '中文' : 'English'}
       </button>
     </div>  
   )
@@ -52,27 +70,78 @@ function Header(){
         <meta charSet="utf-8" />
         <title>{t('header.title')}</title>
         <meta name="description" content={t('header.description')}/>
-        <link rel="icon" href="logo.png" type="image/icon type"></link>
+        <link rel="icon" href={logo} type="image/icon type"></link>
     </Helmet>
   )
 }
 
 function Home(){
-  const { t } = useTranslation()
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      document.getElementById("bg_video").pause()
+    }
+    else {
+      document.getElementById("bg_video").play()
+    }
+  });
+  const { t, i18n } = useTranslation()
+  const [cnpoem, setcnPoem] = useState(null)
+  const [enpoem, setenPoem] = useState(null)
+  const [start, setStart] = useState(false)
+  async function getPoem (){
+    if(!start){
+      setStart(true)
+      const curr = new Date();
+      curr.setUTCMilliseconds(config.poemapioffset);
+      const token = hash(curr.toJSON() + config.poemapikey);
+      headers.headers.token = token;
+      const result = await axios.get(`${config.poemapi}`, headers);
+      if(result.data !== null && result.data !== '' && result.data !== undefined){
+        setcnPoem(result.data.cn)
+        //setenPoem(result.data.en)
+      }else{
+        setStart(false)
+      }
+      const quote = await axios.get(`https://api.adviceslip.com/advice`);
+      if(quote.data.slip.advice !== null && quote.data.slip.advice !== "" && quote.data.slip.advice !== undefined){
+        setenPoem(quote.data.slip.advice)
+      }
+    }
+  }
+  document.onload = getPoem();
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3" >
+    <section className="relative h-screen flex flex-col items-center justify-center  text-white py-0 px-3" >
         <div className="video-docker absolute top-0 left-0 w-full h-full overflow-hidden" >
-          <video className="min-w-full min-h-full absolute object-cover" autoPlay muted loop poster='bg.jpg' webkit-playsinline="true" playsInline x5-playsinline="true">
-            <source src="https://www.zezhuyu.video/2019/YK/new/video/video.mp4" type="video/mp4" />
+          <video className="min-w-full min-h-full absolute object-cover" autoPlay muted poster={bg} webkit-playsinline="true" playsInline x5-playsinline="true" id="bg_video">
+            <source src={video} type="video/mp4" />
             {t('home.error')}
           </video>
         </div>
-        <div className="video-content space-y-2">
-            <h1 className="font-light text-6xl font-mono tracking-wide list-none uppercase align-top move-up">{t('home.title')}</h1>
-            <h2 className="title playfair text-4xl move-up"><i>POEM</i></h2>
+        <div  className="video-content space-y-2">
+            <h1 className="font-light text-6xl font-mono tracking-wide list-none uppercase align-top move-up text-center" >{t('home.title')}</h1>
+            <ShowPoem poem={i18n.language.startsWith('en') ? enpoem : cnpoem} />
         </div>
     </section>
   )
+}
+
+function ShowPoem (input){
+  const { t } = useTranslation()
+  if(input.poem !== "" ){
+    return (
+      <>
+        <h2 className="title playfair text-4xl text-center pt-6 fadeinph" ><i>{input.poem}</i></h2>
+        <h2 className="title playfair text-xl text-right pt-2 fadeinph" ><i>{(input.poem !== null && input.poem !== "" && input.poem !== undefined) ? t('home.poem') : null}</i></h2>
+      </>
+    )
+  }
+  return (
+    <>
+      <h2 className="title playfair text-4xl text-center pt-6" ><i>   </i></h2>
+      <h2 className="title playfair text-xl text-right pt-2" ><i>   </i></h2>
+    </>
+  )
+
 }
 
 function NavBar(){
@@ -85,11 +154,11 @@ function NavBar(){
   }
   const { t } = useTranslation()
   return (
-    <div className="App bg-white dark:bg-gray-700  bg-cover bg-center" style={{backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(navbar-bg.jpg)'}}>
+    <div className="App bg-white dark:bg-gray-700  bg-cover bg-center" style={{backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)), url(' + navbar_bg + ')'}}>
       <Router className="bg-transparent">
         <div className="flex flex-wrap justify-between bg-transparent">
           <NavLink to="/" className="flex items-center" link='/' onClick={toURL}>
-            <img src="logo.png" className="ml-20 mr-3 h-10" alt="logo" link='/' />
+            <img src={logo} className="ml-20 mr-3 h-10" alt="logo" link='/' />
             <span className="self-center text-2xl whitespace-nowrap " link='/'>SAM</span>
           </NavLink>
           <div className="flex md:place-content-center items-center justify-end bg-transparent">
@@ -107,6 +176,9 @@ function NavBar(){
               </li>
               <li>
                 <NavLink to="/about" className={isActive => changeClass(isActive)} link='/about' onClick={toURL}>{t('navbar.c5')}</NavLink>
+              </li>
+              <li>
+                <NavLink to="/project" className={isActive => changeClass(isActive)} link='/project' onClick={toURL}>{t('navbar.c7')}</NavLink>
               </li>
               <li>
                 <button link="https://blog.zezhuyu.com" onClick={toURL} className={changeClass(false)}>{t('navbar.c2')}</button>
@@ -145,9 +217,9 @@ function F0F () {
       <Helmet>
           <meta charSet="utf-8" />
           <title>{t('f0f.header')}</title>
-          <link rel="icon" href="logo.png" type="image/icon type"></link>
+          <link rel="icon" href={logo} type="image/icon type"></link>
       </Helmet>
-      <header className="App-header inset-1.5 bg-current bg-cover bg-no-repeat bg-center" style={{backgroundImage: 'url(bg.jpg)'}} >
+      <header className="App-header inset-1.5 bg-current bg-cover bg-no-repeat bg-center" style={{backgroundImage: 'url(' + bg + ')'}} >
         <h1 className="font-light text-8xl">{t('f0f.title')}</h1>
         <h2 className="font-light text-4xl">{t('f0f.description')}</h2>
       </header>

@@ -1,23 +1,28 @@
 // eslint-disable-next-line
 import i18n from './translate';
+import hash from 'object-hash';
 import { useTranslation} from 'react-i18next';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { BsTelegram } from 'react-icons/bs';
 import { FaKaggle } from 'react-icons/fa';
 import { AiFillGithub, AiFillLinkedin, AiFillTwitterCircle, AiFillInstagram } from "react-icons/ai";
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import config from './config.json';
+import logo from './comp/logo.png';
+import contact_bg from './comp/contact-bg.jpg';
 
 
 export default function Contact () {
     const [showModal, setShowModal] = useState(false);
+    const [result , setResult] = useState(null);
     const toggleModal = () => setShowModal(!showModal);
     
     return (
         <div className="App bg-slate-400">
-            <header className="App-header inset-1.5 bg-cover bg-no-repeat bg-center " style={{backgroundImage: 'url(contact-bg.jpg)'}}>
+            <header className="App-header inset-1.5 bg-cover bg-no-repeat bg-center " style={{backgroundImage: 'url(' + contact_bg + ')'}}>
                 <Card show={showModal} toggle={toggleModal} />
-                <ContactFrom show={showModal} toggle={toggleModal}/>
+                <ContactFrom show={showModal} toggle={toggleModal} result={result} setResult={setResult}/>
             </header>
         </div>
     )
@@ -30,7 +35,7 @@ function Card(value){
     }
     return(
         <div className="fadeinc fadeoutc m-8 w-full lg:max-w-4xl sm:max-w-lg bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
-            <img className="w-20 m-auto mt-8 rounded-full shadow-lg shadow-gray-400 dark:shadow-black bg-white" src="logo.png" alt="" />
+            <img className="w-20 m-auto mt-8 rounded-full shadow-lg shadow-gray-400 dark:shadow-black bg-white" src={logo} alt="" />
             <div className="p-5">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{t('contact.title')}</h5>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{t('contact.content')}</p>
@@ -72,22 +77,22 @@ function Card(value){
                     </ul>
                 </div>
                 <div className="flex justify-center m-auto my-8 space-x-6">
-                    <button onClick={toLink} link="https://www.kaggle.com/zezhuyu" >
+                    <button onClick={toLink}  >
                         <FaKaggle link="https://www.kaggle.com/zezhuyu" />
                     </button>
-                    <button onClick={toLink} link="https://github.com/zezhuyu" >
+                    <button onClick={toLink} >
                         <AiFillGithub link="https://github.com/zezhuyu"/>
                     </button>
-                    <button onClick={toLink} link="https://www.linkedin.com/in/zezhuyu" >
+                    <button onClick={toLink} >
                         <AiFillLinkedin link="https://www.linkedin.com/in/zezhuyu" />
                     </button>
-                    <button onClick={toLink} link="https://twitter.com/zezhuyu" >
+                    <button onClick={toLink} >
                         <AiFillTwitterCircle link="https://twitter.com/zezhuyu" />
                     </button>
-                    <button onClick={toLink} link="https://www.instagram.com/zezhuyu" >
+                    <button onClick={toLink} >
                         <AiFillInstagram link="https://www.instagram.com/zezhuyu" />
                     </button>
-                    <button onClick={toLink} link="https://t.me/sft7f" >
+                    <button onClick={toLink} >
                         <BsTelegram link="https://t.me/sft7f" />
                     </button>
                 </div>
@@ -101,7 +106,10 @@ function Card(value){
 }
 
 function ContactFrom(value) {
-    const [result , setResult] = useState(null);
+    const [submit, setSubmit] = useState(false)
+    const captchaRef = useRef(null)
+    const result = value.result
+    const setResult = value.setResult
     const { t, i18n } = useTranslation()
     const onKeyEnter = (e) => {
         if(e.keyCode === 13) {
@@ -115,9 +123,18 @@ function ContactFrom(value) {
     if(!value.show){
         return 
     }
+    const changeState = async (e) => {
+        setSubmit(true)
+    }
     const submitForm = async (e) => {
-        setResult(null);
         e.preventDefault();
+        setResult(null);
+       
+        if(!submit){
+            return
+        }
+        
+       
         const {name, email, subject, message} = e.target.elements;
         const details = {
             name: name.value,
@@ -134,9 +151,13 @@ function ContactFrom(value) {
                 "Access-Control-Allow-Origin": "*"
             }
         }
-
+        const curr = new Date();
+        curr.setUTCMilliseconds(config.emailapioffset);
+        const token = hash(curr.toJSON() + config.emailapikey);
+        headers.headers.token = token;
         const result = await axios.post(`${config.emailapi}`, details, headers);
         setResult(result.data.sent);
+        setSubmit(false)
     };
     
 
@@ -169,8 +190,11 @@ function ContactFrom(value) {
                         <label className='block text-lg font-bold mb-2' >{t('form.message')}</label>
                         <textarea id="message" className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:border-stone-700 dark:bg-gray-500' required />
                     </div>
-                    <button type="submit" className='bg-blue-500 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>{t('form.button')}</button>
+                    <ReCAPTCHA className='m-auto mb-4' sitekey={config.recapkey} onChange={changeState} ref={captchaRef}/>
+                    {!submit && <p className="text-red-500 text-xs italic mb-4">{t('form.noauth')}</p>}
+                    <button type="submit" className='bg-blue-500 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' >{t('form.button')}</button>
                     <div>
+                        
                         {result && <p className='my-4 text-green-500 text-2xl font-bold'>{t('form.success')}</p>}
                     </div>
                 </form>
